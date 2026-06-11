@@ -547,6 +547,71 @@
       color: #00854a;
       background: #e8f8ee;
     }
+    .status.warning {
+      color: #b45309;
+      background: #fff3d6;
+    }
+    .status.danger {
+      color: #be123c;
+      background: #ffe6ec;
+    }
+    .progress-bar {
+      height: 8px;
+      border-radius: 999px;
+      background: #e8edf5;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--dida-sky), var(--chart-primary));
+    }
+    .finance-strip {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+      margin-top: 18px;
+    }
+    .invoice-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .invoice-summary .mini {
+      border: 1px solid var(--line-soft);
+      border-radius: 7px;
+      background: #fbfcff;
+      padding: 12px;
+    }
+    .log-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(320px, .7fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .log-stack {
+      display: grid;
+      gap: 12px;
+    }
+    .log-entry {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .log-entry:last-child { border-bottom: 0; }
+    .event-code {
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      font-size: 12px;
+      color: #465574;
+      background: #f4f6fb;
+      border-radius: 6px;
+      padding: 2px 6px;
+      white-space: nowrap;
+    }
     .settings-panel {
       display: grid;
       gap: 18px;
@@ -594,6 +659,7 @@
       .metric-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .metric-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .three-col { grid-template-columns: 1fr; }
+      .log-layout { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 760px) {
@@ -611,6 +677,8 @@
       .topbar-left, .topbar-right { flex-wrap: wrap; }
       .page { padding: 18px 16px 80px; }
       .forecast-grid, .two-col, .metric-grid-5, .metric-grid-4, .metric-grid-3, .insight-rail { grid-template-columns: 1fr; }
+      .invoice-summary { grid-template-columns: 1fr; }
+      .log-entry { grid-template-columns: 1fr; }
       h1 { font-size: 28px; }
     }
   </style>
@@ -639,6 +707,8 @@
           <button class="nav-item" data-page="configuration"><i data-lucide="store"></i><span class="nav-label">Configuration</span><span class="pill active-pill">Active</span></button>
           <button class="nav-item" data-page="analytics"><i data-lucide="trending-up"></i><span class="nav-label">Analytics</span></button>
           <button class="nav-item" data-page="cost"><i data-lucide="percent"></i><span class="nav-label">Cost analysis</span></button>
+          <button class="nav-item" data-page="finance"><i data-lucide="wallet-cards"></i><span class="nav-label">Finance Status</span></button>
+          <button class="nav-item" data-page="order-logs"><i data-lucide="list-tree"></i><span class="nav-label">Order Logs</span></button>
           <button class="nav-item" data-page="bookings"><i data-lucide="calendar-days"></i><span class="nav-label">Bookings</span></button>
         </div>
       </nav>
@@ -911,6 +981,100 @@
         <article class="card" style="margin-top:24px"><h3>By hotel chain</h3><p>Top 25 chains by booking volume-highest at the top.</p><svg class="svg-chart chart-tall" data-chart="hotelBars"></svg></article>
       </section>
 
+      <section class="page" id="finance">
+        <div class="page-title">
+          <div><h1>Finance Status</h1><p>Monitor customer credit limits, expiry dates, settlement exposure, and unsettled bills.</p></div>
+          <button class="button"><i data-lucide="download"></i>Export finance report</button>
+        </div>
+        <div class="grid metric-grid-5">
+          <article class="card compact"><div class="card-header"><div><p>Credit Limit</p><div class="metric-value">$2,500,000</div></div><div class="icon-tile"><i data-lucide="landmark"></i></div></div><p class="tiny">Global credit facility for marketplace settlement.</p></article>
+          <article class="card compact"><div class="card-header"><div><p>Available Credit</p><div class="metric-value">$812,450</div></div><div class="icon-tile green"><i data-lucide="badge-dollar-sign"></i></div></div><p class="delta tiny">32.5% remaining</p></article>
+          <article class="card compact"><div class="card-header"><div><p>Used Credit</p><div class="metric-value">$1,687,550</div></div><div class="icon-tile orange"><i data-lucide="receipt-text"></i></div></div><p class="tiny">67.5% utilization</p></article>
+          <article class="card compact"><div class="card-header"><div><p>Credit Expiry</p><div class="metric-value" style="font-size:22px">Jul 31, 2026</div></div><div class="icon-tile purple"><i data-lucide="calendar-clock"></i></div></div><p class="tiny">50 days remaining</p></article>
+          <article class="card compact"><div class="card-header"><div><p>Account Status</p><div class="metric-value" style="font-size:22px">Healthy</div></div><div class="icon-tile green"><i data-lucide="shield-check"></i></div></div><p><span class="status">Within terms</span></p></article>
+        </div>
+
+        <div class="grid two-col" style="margin-top:24px">
+          <article class="card">
+            <div class="card-header"><div><h2>Credit utilization</h2><p>Current exposure across unsettled bookings and open invoices.</p></div><strong>67.5%</strong></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:67.5%"></div></div>
+            <div class="finance-strip">
+              <div><p class="tiny">Risk threshold</p><strong>$2,125,000</strong></div>
+              <span class="status warning">Review at 85%</span>
+            </div>
+            <div class="invoice-summary">
+              <div class="mini"><p>Unbilled exposure</p><strong>$642,180</strong></div>
+              <div class="mini"><p>Open invoices</p><strong>$1,045,370</strong></div>
+              <div class="mini"><p>Overdue amount</p><strong>$0</strong></div>
+            </div>
+          </article>
+          <article class="card">
+            <h2>Settlement calendar</h2>
+            <div class="log-stack">
+              <div class="log-entry"><span class="event-code">Jun 15</span><div><strong>Invoice PIH-2026-0601 due</strong><p>$386,420 expected to settle via bank transfer.</p></div></div>
+              <div class="log-entry"><span class="event-code">Jun 20</span><div><strong>Credit review checkpoint</strong><p>Auto review if utilization stays above 75% for three days.</p></div></div>
+              <div class="log-entry"><span class="event-code">Jul 31</span><div><strong>Credit line expires</strong><p>Renewal documents should be confirmed before Jul 15.</p></div></div>
+            </div>
+          </article>
+        </div>
+
+        <article class="card" style="margin-top:24px">
+          <div class="card-header">
+            <div><h2>Unsettled bill details</h2><p>Open invoice and unbilled booking exposure by billing period.</p></div>
+            <button class="button"><i data-lucide="filter"></i>All statuses</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Bill ID</th><th>Billing period</th><th>Due date</th><th>Type</th><th class="num">Bookings</th><th class="num">Amount</th><th>Status</th><th>Aging</th><th>Owner</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td>PIH-2026-0601</td><td>Jun 1 - Jun 7</td><td>Jun 15, 2026</td><td>Invoice</td><td class="num">1,284</td><td class="num">$386,420</td><td><span class="status warning">Pending payment</span></td><td>3 days</td><td>Finance Ops</td><td><button class="button">View</button></td></tr>
+                <tr><td>PIH-2026-0608</td><td>Jun 8 - Jun 10</td><td>Jun 22, 2026</td><td>Invoice draft</td><td class="num">842</td><td class="num">$254,870</td><td><span class="status">Draft ready</span></td><td>Not due</td><td>Finance Ops</td><td><button class="button">Review</button></td></tr>
+                <tr><td>UNB-2026-0611</td><td>Current cycle</td><td>Jul 1, 2026</td><td>Unbilled</td><td class="num">2,106</td><td class="num">$642,180</td><td><span class="status">Accruing</span></td><td>Not due</td><td>Auto accrual</td><td><button class="button">Export</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+
+      <section class="page" id="order-logs">
+        <div class="page-title">
+          <div><h1>Order Logs</h1><p>Inspect price-check and booking logs by order number with request status, provider trace, and final outcome.</p></div>
+          <button class="button"><i data-lucide="download"></i>Export logs</button>
+        </div>
+        <div class="filters">
+          <div class="search"><i data-lucide="search"></i><input placeholder="Search order number, hotel, trace id"></div>
+          <button class="select">All feeds<i data-lucide="chevron-down"></i></button>
+          <button class="select">All statuses<i data-lucide="chevron-down"></i></button>
+          <button class="select">All log stages<i data-lucide="chevron-down"></i></button>
+          <button class="button primary"><i data-lucide="search"></i>Search Logs</button>
+        </div>
+        <div class="log-layout">
+          <article class="card">
+            <div class="card-header"><div><h2>Order-level log table</h2><p>Each row is grouped by order number and shows both valuation and booking stages.</p></div></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Order No.</th><th>Hotel</th><th>Feed</th><th>Price-check</th><th>Booking</th><th>Trace IDs</th><th>Last event</th><th>Actions</th></tr></thead>
+                <tbody id="orderLogRows"></tbody>
+              </table>
+            </div>
+          </article>
+          <aside class="card">
+            <h2>Selected order detail</h2>
+            <p class="tiny">Order DIDA-20260610-88421</p>
+            <div class="log-stack" style="margin-top:18px">
+              <h3>Price-check logs</h3>
+              <div class="log-entry"><span class="event-code">11:08:12</span><div><strong>Valuation request sent</strong><p>Rate code RN-2201, 1 room, refundable=false.</p></div></div>
+              <div class="log-entry"><span class="event-code">11:08:13</span><div><strong>Provider returned net price</strong><p>Original $182.68, adjusted $179.03 after 2.0% marketplace budget.</p></div></div>
+              <div class="log-entry"><span class="event-code">11:08:13</span><div><strong>Price-check passed</strong><p>Trace pc_91bf4 resolved in 620ms.</p></div></div>
+              <h3 style="margin-top:14px">Booking logs</h3>
+              <div class="log-entry"><span class="event-code">11:09:02</span><div><strong>Booking request created</strong><p>Guest and payment token validated.</p></div></div>
+              <div class="log-entry"><span class="event-code">11:09:04</span><div><strong>Supplier confirmation received</strong><p>Provider booking id 1774073844.</p></div></div>
+              <div class="log-entry"><span class="event-code">11:09:05</span><div><strong>Order completed</strong><p>Voucher generated and settlement exposure updated.</p></div></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
       <section class="page" id="bookings">
         <div class="page-title"><div><h1>Bookings</h1><p>View your bookings with Nuitée.</p></div><button class="button"><i data-lucide="download"></i>Export to CSV</button></div>
         <div class="table-wrap">
@@ -1144,6 +1308,17 @@
       const rows = hotels.map((h,i)=>`<tr><td>${1774107878+i*34421}</td><td>${[40204,44099,87149,621824,991378,84627,48454,111282,97131,1012902][i]}</td><td>${h}</td><td>${i%3===0?"HUB_Dida_NonTravel_BankOnly":"HUB_Dida_B2B"}</td><td class="num">$${(93+i*47.63).toFixed(2)}</td><td>${(.5+(i%5)*.4).toFixed(1)}%</td><td>$${(.74+i*.39).toFixed(2)}</td><td>Jun ${9+i}, 2026</td><td>Jun 10, 2026</td></tr>`).join("");
       document.getElementById("bookingRows").innerHTML = rows;
     }
+    function renderOrderLogs() {
+      const logs = [
+        ["DIDA-20260610-88421", "Hampton Inn Binghamton/Johnson City", "HUB_Dida_B2B", "Passed", "Confirmed", "pc_91bf4 / bk_3de21", "Jun 10, 11:09:05"],
+        ["DIDA-20260610-88422", "Comfort Inn Downtown", "HUB_Dida_B2B", "Passed", "Pending supplier", "pc_77ab2 / bk_71c09", "Jun 10, 11:12:44"],
+        ["DIDA-20260610-88423", "Hilton Garden Inn Ames", "HUB_Dida_CUG", "Price changed", "Stopped", "pc_30ef1 / -", "Jun 10, 11:15:18"],
+        ["DIDA-20260610-88424", "The Lofton Hotel", "HUB_Dida_NonTravel_BankOnly", "Passed", "Confirmed", "pc_64aa8 / bk_5580d", "Jun 10, 11:22:39"],
+        ["DIDA-20260610-88425", "Econo Lodge Whiteville", "HUB_Dida_B2B", "No room", "Not attempted", "pc_5f2c0 / -", "Jun 10, 11:24:02"]
+      ];
+      const statusClass = value => value === "Confirmed" || value === "Passed" ? "status" : value === "Stopped" || value === "No room" ? "status danger" : "status warning";
+      document.getElementById("orderLogRows").innerHTML = logs.map(row => `<tr><td><strong>${row[0]}</strong></td><td>${row[1]}</td><td>${row[2]}</td><td><span class="${statusClass(row[3])}">${row[3]}</span></td><td><span class="${statusClass(row[4])}">${row[4]}</span></td><td><span class="event-code">${row[5]}</span></td><td>${row[6]}</td><td><button class="button">View logs</button></td></tr>`).join("");
+    }
     document.querySelectorAll(".nav-item").forEach(btn => {
       btn.addEventListener("click", () => {
         const page = btn.dataset.page;
@@ -1155,6 +1330,7 @@
     document.getElementById("prevToggle").addEventListener("click", e => e.currentTarget.classList.toggle("on"));
     window.addEventListener("resize", () => setTimeout(renderCharts, 80));
     renderBookings();
+    renderOrderLogs();
     renderCharts();
     if (window.lucide) lucide.createIcons();
   </script>

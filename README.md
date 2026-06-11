@@ -1,6 +1,6 @@
 # DIDA Supplier Dashboard Skill
 
-This repository contains a reusable Codex skill and a static frontend demo for a DIDA-branded supplier analytics dashboard.
+This repository contains a reusable Codex skill and a static frontend demo for a DIDA-branded supplier analytics dashboard, including Marketplace finance status and order-log modules.
 
 ## Contents
 
@@ -10,12 +10,27 @@ This repository contains a reusable Codex skill and a static frontend demo for a
 - `demo/assets/` - logo assets used by the demo.
 - `docs/dida-supplier-dashboard-summary.md` - Chinese summary of components, functions, and modules.
 
+## Demo Pages
+
+- Overview
+- Performance
+- API Performance
+- Errors
+- Inventory
+- Marketplace Configuration
+- Marketplace Analytics
+- Cost Analysis
+- Finance Status
+- Order Logs
+- Bookings
+- Custom Reports placeholder
+
 ## Local Preview
 
 Run a static server from the demo folder:
 
 ```powershell
-cd C:\Users\道旅\Documents\Partner_Insight_Hub\demo
+cd demo
 python -m http.server 4173 --bind 127.0.0.1
 ```
 
@@ -40,7 +55,7 @@ The demo follows the DIDA brand manual:
 The demo was checked locally with:
 
 - HTTP server response: `200`
-- Skill TODO count: `0`
-- Demo page sections: `10`
+- Skill unresolved markers: `0`
+- Demo page sections: `12`
 - Demo chart targets: `22`
 - Browser DOM navigation across the main dashboard modules

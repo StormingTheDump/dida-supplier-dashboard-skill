@@ -1,6 +1,6 @@
 ---
 name: dida-supplier-dashboard
-description: Use when creating or adapting a DIDA-branded Chrome-style supplier analytics dashboard inspired by LiteAPI supplier pages, including overview, performance, API performance, errors, inventory, marketplace configuration, analytics, cost analysis, and bookings modules.
+description: Use when creating or adapting a DIDA-branded Chrome-style supplier analytics dashboard inspired by LiteAPI supplier pages, including overview, performance, API performance, errors, inventory, marketplace configuration, analytics, cost analysis, finance status, order logs, and bookings modules.
 ---
 
 # DIDA Supplier Dashboard
@@ -68,7 +68,7 @@ Rules:
 const navSections = [
   { title: "BUSINESS", items: ["Overview", "Performance", "Custom Reports"] },
   { title: "INTEGRATION", items: ["API Performance", "Errors", "Inventory"] },
-  { title: "MARKETPLACE", items: ["Configuration", "Analytics", "Cost analysis", "Bookings"] }
+  { title: "MARKETPLACE", items: ["Configuration", "Analytics", "Cost analysis", "Finance Status", "Order Logs", "Bookings"] }
 ];
 ```
 
@@ -287,6 +287,63 @@ Charts:
 - Bar charts for refundable type and lead time.
 - Horizontal bar chart for top hotel chains.
 
+## Finance Status Page
+
+```js
+const financeStatusModules = [
+  "Credit Limit",
+  "Available Credit",
+  "Used Credit",
+  "Credit Expiry",
+  "Account Status",
+  "Credit utilization progress",
+  "Settlement calendar",
+  "Unsettled bill details"
+];
+
+const unsettledBillColumns = [
+  "Bill ID",
+  "Billing period",
+  "Due date",
+  "Type",
+  "Bookings",
+  "Amount",
+  "Status",
+  "Aging",
+  "Owner",
+  "Actions"
+];
+```
+
+Use this page for customer credit exposure, credit-line expiry dates, open invoice status, unbilled booking exposure, settlement calendar items, and finance risk thresholds.
+
+## Order Logs Page
+
+```js
+const orderLogColumns = [
+  "Order No.",
+  "Hotel",
+  "Feed",
+  "Price-check",
+  "Booking",
+  "Trace IDs",
+  "Last event",
+  "Actions"
+];
+
+const orderLogDetail = {
+  priceCheckLogs: ["Valuation request sent", "Provider returned net price", "Price-check passed"],
+  bookingLogs: ["Booking request created", "Supplier confirmation received", "Order completed"]
+};
+```
+
+Layout:
+
+- Follow the Bookings page's dense table style.
+- Group rows by order number, not by provider booking id.
+- Show both valuation/price-check state and booking state in the same row.
+- Provide a side detail panel or expandable row with timestamped price-check and booking events.
+
 ## Bookings Page
 
 ```js
@@ -321,7 +378,9 @@ const interactions = {
   navClick: "switch page module without losing shell state",
   chartLegend: "toggle feed visibility",
   searchLogs: "filter error log table by query",
-  settingsSliders: "update draft marketplace tolerance values"
+  settingsSliders: "update draft marketplace tolerance values",
+  financeStatus: "review credit exposure, expiry, and unsettled bills",
+  orderLogs: "inspect valuation and booking logs by order number"
 };
 ```
 
@@ -336,7 +395,9 @@ const dashboardData = {
   overview: { ttv: 3532888, winRate: 0.027, bookings: 10599, roomNights: 21907 },
   technical: { preBookErrorRate: 0.0735, bookingErrorRate: 0.0572, lostTtv: 615900 },
   inventory: { mapped: 295748, available: 189226, sold: 0 },
-  marketplace: { bookings: 3905, ttv: 1080544, discount: 0.005, cost: 17534 }
+  marketplace: { bookings: 3905, ttv: 1080544, discount: 0.005, cost: 17534 },
+  finance: { creditLimit: 2500000, usedCredit: 1687550, availableCredit: 812450, expiry: "2026-07-31" },
+  orderLogs: [{ orderNo: "DIDA-20260610-88421", priceCheck: "Passed", booking: "Confirmed" }]
 };
 ```
 
