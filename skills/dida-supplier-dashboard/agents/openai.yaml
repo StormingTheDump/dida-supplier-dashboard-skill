@@ -1,0 +1,4 @@
+interface:
+  display_name: "DIDA Supplier Dashboard"
+  short_description: "Build DIDA-branded supplier analytics dashboards"
+  default_prompt: "Create a DIDA-branded Chrome-style supplier analytics dashboard."
