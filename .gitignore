@@ -1,0 +1,8 @@
+.superpowers/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/vite-dev*.log
+frontend/vite-dev.pid
+frontend/qa-*.png
+frontend/qa-audit.json
